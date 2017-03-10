@@ -2,7 +2,7 @@
  * Created by Ibrahim on 10/03/2017.
  */
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 class App extends React.Component {
 

@@ -1,0 +1,17 @@
+/**
+ * Created by Ibrahim on 10/03/2017.
+ */
+
+import React from 'react';
+import {Router,IndexRoute} from 'react-router';
+import App from './components/app';
+import HomePage from './components/home/HomePage';
+import AboutPage from './components/about/AboutPage';
+
+
+export default (
+  <Route path="/" component={App}>
+    <IndexRoute component={HomePage} />
+    <Route path="about" component={AboutPage}/>
+  </Route>
+);
