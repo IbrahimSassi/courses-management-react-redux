@@ -2,7 +2,7 @@
  * Created by Ibrahim on 18/03/2017.
  */
 import AuthorApi from '../api/mockAuthorApi';
-import * as types from './actionTypes';
+import * as types from './actionsTypes';
 // import {beginAjaxCall} from './ajaxStatusActions';
 
 export function loadAuthorsSuccess(authors) {
