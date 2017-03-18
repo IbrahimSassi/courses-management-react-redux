@@ -2,6 +2,9 @@
  * Created by Ibrahim on 10/03/2017.
  */
 import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import * as courseActions from '../../actions/courseActions';
+
 
 class CoursesPage extends React.Component {
 
@@ -18,14 +21,14 @@ class CoursesPage extends React.Component {
 
   }
 
-  onTitleChange(event){
+  onTitleChange(event) {
     const course = this.state.course;
     course.title = event.target.value;
-    this.setState({course:course});
+    this.setState({course: course});
   }
 
-  onClickSave(){
-    alert(`Saving ${this.state.course.title}`);
+  onClickSave() {
+    this.props.dispatch(courseActions.createCourse(this.state.course));
   }
 
   render() {
@@ -49,4 +52,13 @@ class CoursesPage extends React.Component {
     );
   }
 }
-export default CoursesPage;
+
+
+function mapStateToProps(state, ownProps) {
+  return {
+    courses: state.courses
+  };
+}
+
+
+export default connect(mapStateToProps)(CoursesPage);
