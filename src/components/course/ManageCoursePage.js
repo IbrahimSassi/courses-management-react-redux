@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as courseAction from '../../actions/courseActions';
 import CourseForm from './CourseForm';
+import {} from 'toastr';
+
 
 export class ManageCoursePage extends React.Component {
   constructor(props, context) {
@@ -17,7 +19,7 @@ export class ManageCoursePage extends React.Component {
     };
 
     this.updateCourseState = this.updateCourseState.bind(this);
-
+    this.saveCourse = this.saveCourse.bind(this);
   }
 
   updateCourseState(event) {
@@ -28,6 +30,14 @@ export class ManageCoursePage extends React.Component {
   }
 
 
+  saveCourse(event) {
+    event.preventDefault();
+    this.props.actions.saveCourse(this.state.course);
+    // toastr.success('Course Added')
+    this.context.router.push('/courses');
+  }
+
+
   render() {
     return (
       <CourseForm
@@ -35,6 +45,7 @@ export class ManageCoursePage extends React.Component {
         errors={this.state.errors}
         allAuthors={this.props.authors}
         onChange={this.updateCourseState}
+        onSave={this.saveCourse}
       />
     );
   }
@@ -42,13 +53,32 @@ export class ManageCoursePage extends React.Component {
 
 ManageCoursePage.propTypes = {
   course: PropTypes.object.isRequired,
-  authors: PropTypes.array.isRequired
+  authors: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 };
+
+
+ManageCoursePage.contextTypes = {
+  router: PropTypes.object
+};
+
+
+function getCourseById(courses, id) {
+  const course = courses.filter(course => course.id == id);
+  if (course.length) return course[0]; //since filter returns an array, have to grab the first.
+  return null;
+}
 
 
 function mapStateToProps(state, ownProps) {
 
+  const courseId = ownProps.params.id;
   let course = {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''};
+
+  if (courseId && state.courses.length > 0) {
+    course = getCourseById(state.courses, courseId);
+  }
+
 
   const authorsFormattedForDropdown = state.authors.map(author => {
     return {
